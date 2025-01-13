@@ -1,0 +1,8 @@
+{% for lang, flag in languages.items %}
+  <li>
+    <a class="dropdown-item nav-link" href="{% url 'setlang' lang %}?next={{ next }}">{{ flag }}</a>
+  </li>
+{% empty %}
+  <li>No languages available</li>
+{% endfor %}
+

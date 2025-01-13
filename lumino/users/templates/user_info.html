@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% load sorl_thumbnail %} {% block title %}
+<title>{{ user.username }} Perfil</title>
+<style>
+  .avatar-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+</style>
+{% endblock title %} {% block body %}
+<div class="container mt-4">
+  {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" id="message-{{ forloop.counter }}">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeMessage('message-{{ forloop.counter }}')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+</ul>
+{% endif %}
+  <h1 class="text-light">{{roll}} : {{ user.username }} Perfil</h1>
+
+  <div class="row mb-4">
+    <div class="col-md-3 text-center">
+      <div class="avatar-container">
+        {% thumbnail user.profile.avatar "120x120" crop="center" format="PNG" as im %}
+        <img
+          src="{{ im.url }}"
+          alt="{{ user.username }}'s Avatar"
+          width="{{ im.width }}"
+          height="{{ im.height }}"
+        />
+        {% endthumbnail %}
+      </div>
+      {% if user == request.user %}
+      <div class="mt-2">
+        <a
+          href="{% url 'user:user_edit' %}"
+          class="btn btn-primary btn-sm mt-2"
+        >
+          Editar Perfil
+        </a>
+        {% if roll == "Student" %}
+        <a class="btn btn-danger btn-sm mt-2" href="{% url 'user:leave'%}"
+        >Darse de baja</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-9">
+      <div class="form-group">
+        <label class="text-light" for="user-email"
+          ><strong>Email:</strong></label
+        >
+        <p class="text-light">{{ user.email }}</p>
+      </div>
+
+      <div class="form-group">
+        <label class="text-light" for="user-name"
+          ><strong>Nombre:</strong></label
+        >
+        <p class="text-light">{{ user.first_name }} {{ user.last_name }}</p>
+      </div>
+
+      <div class="form-group">
+        <label class="text-light"><strong>Bio:</strong></label>
+        <br />
+        <p class="text-light">{{ user.profile.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function closeMessage(id) {
+      const alertElement = document.getElementById(id);
+      if (alertElement) {
+          alertElement.classList.remove('show');
+          alertElement.classList.add('fade');
+          setTimeout(() => {
+              alertElement.remove();  
+          }, 150); 
+      }
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+          const alerts = document.querySelectorAll('.alert');
+          alerts.forEach(alert => {
+              alert.classList.remove('show');
+              alert.classList.add('fade');
+              setTimeout(() => {
+                  alert.remove();  
+              }, 150); 
+          });
+      }, 5000);
+  });
+</script>
+{% endblock body %}

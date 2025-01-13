@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load i18n %}
+ {% block title %}
+<title>Subjects List</title>
+{% endblock title %} {% block body %}
+<div class="container mt-4">
+  <div class="list-group">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" id="message-{{ forloop.counter }}">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeMessage('message-{{ forloop.counter }}')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+    <h1 class="text-light">{%translate "My subjects"%}</h1>
+    {% for subject in subjects %}
+    <div class="list-group-item bg-dark text-light mb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="title">{{ subject.name }}</div>
+        <div class="buttons">
+          <a
+            href="{% url "subjects:subjects_details" subject.code%}"
+            class="btn btn-primary btn-sm me-2"
+            >Ver</a
+          >
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="list-group-item bg-dark text-light mb-2">
+      Actualmente,No Tienes Subjects
+    </div>
+    {% endfor %}
+    {% if not isteacher %}
+      <div class="buttons">
+        <a
+          href="{% url "subjects:subjects_enroll"%}"
+          class="btn btn-primary btn-sm me-2"
+          >Enroll Subjects</a
+        >
+        <a
+        href="{% url "subjects:subjects_unenroll"%}"
+        class="btn btn-primary btn-sm me-2"
+        >UnEnroll Subjects</a
+      >
+      {% if certificate_on %}
+      <a
+      href="{% url "subjects:certificate"%}"
+      class="btn btn-primary btn-sm me-2"
+      >Certificate</a
+    >
+      {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+<script>
+  function closeMessage(id) {
+      const alertElement = document.getElementById(id);
+      if (alertElement) {
+          alertElement.classList.remove('show');
+          alertElement.classList.add('fade');
+          setTimeout(() => {
+              alertElement.remove();  
+          }, 150); 
+      }
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+          const alerts = document.querySelectorAll('.alert');
+          alerts.forEach(alert => {
+              alert.classList.remove('show');
+              alert.classList.add('fade');
+              setTimeout(() => {
+                  alert.remove();  
+              }, 150); 
+          });
+      }, 5000);
+  });
+</script>
+
+  {% endblock body %}

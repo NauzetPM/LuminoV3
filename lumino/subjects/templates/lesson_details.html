@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% load markdownify %}
+{% block title %}
+<title>Subjects List</title>
+{% endblock title %} {% block body %}
+<div class="container mt-4">
+  <div class="list-group text-light">
+        <div class="title">Title:{{ lesson.title }}</div>
+        {% if isteacher %}
+        <div class="buttons">
+          <a
+          href="{% url "subjects:lessons_edit" subject.code lesson.pk %}"
+          class="btn btn-primary btn-sm me-2"
+          >Editar</a
+        >
+        <a
+        href="{% url "subjects:lessons_delete" subject.code lesson.pk %}"
+        class="btn btn-primary btn-sm me-2"
+        >Borrar</a
+      >
+        </div>
+        {% endif %}
+        <div >{{ lesson.content |markdownify }}
+        </div>
+
+  </div>
+</div>
+  {% endblock body %}

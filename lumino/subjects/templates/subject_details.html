@@ -1,0 +1,111 @@
+
+  {% extends "base.html" %} {% block title %}
+  <title>Subjects List</title>
+  {% endblock title %} {% block body %}
+  <div class="container mt-4">
+    <h1 class="text-light">Leassons</h1>
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" id="message-{{ forloop.counter }}">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeMessage('message-{{ forloop.counter }}')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </ul>
+{% endif %}
+    {% if isteacher %}
+    <div class="list-group">
+      
+      <div class="list-group-item bg-dark text-light mb-2">
+        
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="title">Dashboard</div>
+          <div class="buttons">
+            <a
+            href="{% url "subjects:subjects_marks" subject.code %}"
+            class="btn btn-primary btn-sm me-2"
+            >Marks</a
+          >
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    <div class="buttons">
+      <a
+        href="{% url "subjects:lessons_add" subject.code %}"
+        class="btn btn-primary btn-sm me-2"
+        >Añadir</a
+      >
+    </div>
+    {% elif mark %}
+    {% endif %}
+      <div class="list-group">
+        
+        {% for lesson in lessons %}
+        <div class="list-group-item bg-dark text-light mb-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="title">{{ lesson.title }}</div>
+            {% if isteacher %}
+            <div class="buttons">
+              <a
+                href="{% url "subjects:lessons_edit" subject.code lesson.pk %}"
+                class="btn btn-primary btn-sm me-2"
+                >Editar</a
+              >
+              <a
+              href="{% url "subjects:lessons_delete" subject.code lesson.pk %}"
+              class="btn btn-primary btn-sm me-2"
+              >Borrar</a
+            >
+            </div>
+            {% endif %}
+            <div class="buttons">
+              <a
+                href="{% url "subjects:lessons_details" subject.code lesson.pk %}"
+                class="btn btn-primary btn-sm me-2"
+                >Ver</a
+              >
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="list-group-item bg-dark text-light mb-2">
+          Actualmente,No Tienes Subjects
+        </div>
+        {% endfor %}
+      </div>
+  </div>
+  <script>
+    function closeMessage(id) {
+        const alertElement = document.getElementById(id);
+        if (alertElement) {
+            alertElement.classList.remove('show');
+            alertElement.classList.add('fade');
+            setTimeout(() => {
+                alertElement.remove();  
+            }, 150); 
+        }
+    }
+  
+  
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                setTimeout(() => {
+                    alert.remove();  
+                }, 150); 
+            });
+        }, 5000);
+    });
+  </script>
+    {% endblock body %}
+  
+  

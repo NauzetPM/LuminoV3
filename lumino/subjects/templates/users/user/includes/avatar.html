@@ -1,0 +1,4 @@
+{% load sorl_thumbnail %}
+{% thumbnail user.profile.avatar "30x30" crop="center" format="PNG" as im %}
+<img src="{{ im.url }}"alt="{{ user.username }}'s Avatar" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}

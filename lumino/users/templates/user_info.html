@@ -35,8 +35,7 @@
     <div class="col-md-3 text-center">
       <div class="avatar-container">
         {% thumbnail user.profile.avatar "120x120" crop="center" format="PNG" as im %}
-        <img
-          src="{{ im.url }}"
+        <img src="{{ im.url }}"
           alt="{{ user.username }}'s Avatar"
           width="{{ im.width }}"
           height="{{ im.height }}"

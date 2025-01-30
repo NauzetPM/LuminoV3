@@ -2,7 +2,7 @@
 
 ### Política de mantenimiento
 
-- Se programan actualizaciones regulares cada tres meses.
+- Se va mejorando el código con el tiempo y haciendo actualizaciones regulares.
 - Se proporciona soporte técnico a los usuarios durante el horario laboral.
 
 ### Registro de cambios (Changelog)
